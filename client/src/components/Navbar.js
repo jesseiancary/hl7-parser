@@ -64,6 +64,11 @@ class Landing extends Component {
                 Home
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/hl7/new" className="nav-link">
+                HL7 Parser
+              </Link>
+            </li>
           </ul>
           {localStorage.usertoken ? loggedIn : loggedOut}
         </div>

@@ -11,6 +11,11 @@ import { CreateUser } from './controllers/Users';
 import { ShowUser } from './controllers/Users';
 import { UpdateUser } from './controllers/Users';
 
+import { ShowAllHL7Documents } from './controllers/HL7';
+import { CreateHL7Document } from './controllers/HL7';
+import { ShowHL7Document } from './controllers/HL7';
+import { UpdateHL7Document } from './controllers/HL7';
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     localStorage.usertoken !== undefined
@@ -48,6 +53,13 @@ class App extends Component {
               <PrivateRoute exact path='/users' component={ShowAllUsers} />
               <PrivateRoute exact path='/users/:id' component={ShowUser} />
               <PrivateRoute path='/users/:id/edit' component={UpdateUser} />
+            </Switch>
+
+            <Switch>
+              <Route exact path='/hl7' component={ShowAllHL7Documents} />
+              <Route exact path='/hl7/new' component={CreateHL7Document} />
+              <Route exact path='/hl7/:id' component={ShowHL7Document} />
+              <Route path='/hl7/:id/edit' component={UpdateHL7Document} />
             </Switch>
 
             <br />

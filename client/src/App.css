@@ -60,6 +60,14 @@
   color: white;
 }
 
+.hl7-data {
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: .5em;
+  overflow-x: scroll;
+}
+
 .list {
   display: grid;
   margin: 20px 0 50px 0;
