@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "description": "",
+  "author": "Jesse Ian Cary",
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "app": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesseiancar/hapi-mongo-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jesseiancar/hapi-mongo-react/issues"
+  },
+  "homepage": "https://github.com/jesseiancar/hapi-mongo-react#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.1.0",
+    "cors": "^2.8.5",
+    "hapi": "^18.1.0",
+    "mongoose": "^5.8.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
