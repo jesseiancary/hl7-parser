@@ -5,7 +5,7 @@ const HL7Schema = mongoose.Schema({
     type: String,
     required: true
   },
-  json_data: String
+  json_data: Object
 }, {
   timestamps: true
 });

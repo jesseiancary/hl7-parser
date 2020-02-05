@@ -23,6 +23,9 @@ class ShowView extends Component {
           <pre className="hl7-data bg-dark text-light">
             { t.state.hl7_data }
           </pre>
+          <pre className="hl7-data bg-dark text-light">
+            { JSON.stringify(t.state.json_data, null, 2) }
+          </pre>
           <div className="row">
             <div className="col-md-6">
               <button type="button" className="btn btn-outline-danger btn-lg btn-block" onClick={t.onDeleteClick.bind(t, t.state._id)}>

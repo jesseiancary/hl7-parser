@@ -1,6 +1,7 @@
 'use strict'
 
 const HL7 = require('../models/HL7');
+const hl7Parser = require('./hl7-parser');
 
 module.exports = {
 
@@ -10,9 +11,20 @@ module.exports = {
   async create(req, h) {
     // data validation???
     try {
+
+      // First save the raw HL7 to the database
       var hl7 = new HL7(req.payload);
       var result = await hl7.save();
+      // or
       // var result = await HL7.create(req.payload).exec();
+
+      // Then convert the HL7 data to JSON and update the database record
+      if (result._id) {
+        const jsonData = await hl7Parser.getJson(req.payload.hl7_data);
+        // console.log(JSON.stringify(jsonData).replace(/\'/g, "''"));
+        result = await HL7.findByIdAndUpdate(result._id, { json_data: jsonData }, { new: true }).exec();
+      }
+
       return h.response(result);
     } catch(err) {
       return h.response({ error: err.message }).code(500);
