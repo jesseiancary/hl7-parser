@@ -20,7 +20,7 @@ module.exports = {
     .then(user => {
       if (!user) {
         const result = bcrypt.hash(req.payload.password, 10, (err, hash) => {
-          req.payload.password = hash
+          req.payload.password = hash;
           return User.create(req.payload)
           .then(user => {
             // THIS IS NOT BEING RETURNED
@@ -38,28 +38,19 @@ module.exports = {
     .catch(err => {
       return h.response({ error: err.message }).code(500);
     });
-    // old version before adding password and encryption
-    // try {
-    //   var user = new User(req.payload);
-    //   var result = await user.save();
-    //   // var result = await User.create(req.payload).exec();
-    //   return h.response(result);
-    // } catch(err) {
-    //   return h.response({ error: err.message }).code(500);
-    // }
   },
 
   // @route GET /api/users
   // @description Get all users
   // @access Public
   async find(req, h) {
-    try {
-      var users = await User.find().exec();
+    return User.find()
+    .then(users => {
       return h.response(users);
-      // return h.view('users', { users });
-    } catch(err) {
+    })
+    .catch(err => {
       return h.response({ error: err.message }).code(500);
-    }
+    });
   },
 
   // @route GET /api/users/:id
@@ -67,12 +58,13 @@ module.exports = {
   // @access Public
   async findOne(req, h) {
     if (!req.params.id) return h.response({ error: 'id is required param' }).code(400);
-    try {
-      var user = await User.findById(req.params.id).exec();
+    return User.findById(req.params.id)
+    .then(user => {
       return h.response(user);
-    } catch(err) {
+    })
+    .catch(err => {
       return h.response({ error: err.message }).code(500);
-    }
+    });
   },
 
   // @route PUT /api/users/:id
@@ -80,12 +72,13 @@ module.exports = {
   // @access Public
   async update(req, h) {
     if (!req.params.id) return h.response({ error: 'id is required param' }).code(400);
-    try {
-      var result = await User.findByIdAndUpdate(req.params.id, req.payload, { new: true }).exec();
+    return User.findByIdAndUpdate(req.params.id, req.payload, { new: true })
+    .then(result => {
       return h.response(result);
-    } catch(err) {
+    })
+    .catch(err => {
       return h.response({ error: err.message }).code(500);
-    }
+    });
   },
 
   // @route DELETE /api/users/:id
@@ -93,12 +86,13 @@ module.exports = {
   // @access Public
   async delete(req, h) {
     if (!req.params.id) return h.response({ error: 'id is required param' }).code(400);
-    try {
-      var result = await User.findByIdAndDelete(req.params.id).exec();
+    return User.findByIdAndDelete(req.params.id)
+    .then(result => {
       return h.response(result);
-    } catch(err) {
+    })
+    .catch(err => {
       return h.response({ error: err.message }).code(500);
-    }
+    });
   },
 
   // @route POST /api/users/login
