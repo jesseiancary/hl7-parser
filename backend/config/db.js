@@ -9,7 +9,8 @@ const connectDB = async () => {
       mongoDbUri,
       {
         useUnifiedTopology: true,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useFindAndModify: false
       }, (err) => {
         if (err) throw err;
       }
