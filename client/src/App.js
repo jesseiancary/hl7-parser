@@ -9,7 +9,6 @@ import { Register } from './controllers/Account';
 import { Login } from './controllers/Account';
 import { Profile } from './controllers/Account';
 
-import { LoginUser } from './controllers/Users';
 import { ShowAllUsers } from './controllers/Users';
 import { CreateUser } from './controllers/Users';
 import { ShowUser } from './controllers/Users';
@@ -59,7 +58,6 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/users/new" component={CreateUser} />
-              <Route exact path="/users/login" component={LoginUser} />
               <PrivateRoute exact path="/users" component={ShowAllUsers} />
               <PrivateRoute exact path="/users/:id" component={ShowUser} />
               <PrivateRoute path="/users/:id/edit" component={UpdateUser} />

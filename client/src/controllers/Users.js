@@ -1,66 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
 import global from '../utils/global.js';
 import user from '../models/User.js';
 
-import LoginView from '../views/users/login';
 import CreateView from '../views/users/create';
 import UpdateView from '../views/users/update';
 import ShowView from '../views/users/show';
 import ShowAllView from '../views/users/show_all';
 
 const api = 'http://localhost:3001/api/users';
-
-/*
- * @route /users/login
- * @description Log in a user
- */
-export class LoginUser extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      email: '',
-      password: '',
-      error: ''
-    };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    axios
-      .post(`${api}/login`, {
-        email: this.state.email,
-        password: this.state.password
-      })
-      .then(res => {
-        if (res.data.token) {
-          localStorage.setItem('usertoken', res.data.token);
-          this.props.history.push(from.pathname);
-        } else if (res.data.error) {
-          this.setState({ error: res.data.error });
-        }
-      })
-      .catch(err => {
-        console.log('Error in LoginUser.onSubmit()', err);
-      });
-  };
-
-  render() {
-    return (
-      <LoginView this={this} />
-    );
-  }
-
-}
 
 /*
  * @route /users/new
@@ -84,7 +32,7 @@ export class CreateUser extends Component {
     axios
       .post(api, this.state)
       .then(res => {
-        this.props.history.push('/users/login');
+        this.props.history.push('/users');
       })
       .catch(err => {
         console.log('Error in CreateUser.onSubmit()', err);
@@ -136,6 +84,7 @@ export class UpdateUser extends Component {
         this.props.history.push(`/users/${this.props.match.params.id}`);
       })
       .catch(err => {
+        this.setState({ error: 'There was an error updating the user.' });
         console.log('Error in UpdateUser.onSubmit()', err);
       })
   };
@@ -161,13 +110,6 @@ export class ShowUser extends Component {
   }
 
   componentDidMount() {
-    // const token = localStorage.usertoken;
-    // const decoded = jwt_decode(token);
-    // this.setState({
-    //   first_name: decoded.first_name,
-    //   last_name: decoded.last_name,
-    //   email: decoded.email
-    // });
     axios
       .get(`${api}/${this.props.match.params.id}`)
       .then(res => {
