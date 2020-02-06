@@ -21,11 +21,11 @@ class UpdateView extends Component {
               <h1 className="display-4 text-center">Enter HL7</h1>
 
               <form noValidate onSubmit={t.onSubmit}>
-                <div className='form-group'>
+                <div className="form-group">
                   <textarea
-                    name='hl7_data'
-                    placeholder='HL7 Data'
-                    className='form-control'
+                    name="hl7_data"
+                    placeholder="HL7 Data"
+                    className="form-control"
                     value={t.state.hl7_data}
                     onChange={t.onChange}
                   />

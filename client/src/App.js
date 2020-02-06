@@ -48,18 +48,18 @@ class App extends Component {
 
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route exact path='/users/new' component={CreateUser} />
+              <Route exact path="/users/new" component={CreateUser} />
               <Route exact path="/users/login" component={LoginUser} />
-              <PrivateRoute exact path='/users' component={ShowAllUsers} />
-              <PrivateRoute exact path='/users/:id' component={ShowUser} />
-              <PrivateRoute path='/users/:id/edit' component={UpdateUser} />
+              <PrivateRoute exact path="/users" component={ShowAllUsers} />
+              <PrivateRoute exact path="/users/:id" component={ShowUser} />
+              <PrivateRoute path="/users/:id/edit" component={UpdateUser} />
             </Switch>
 
             <Switch>
-              <Route exact path='/hl7' component={ShowAllHL7Documents} />
-              <Route exact path='/hl7/new' component={CreateHL7Document} />
-              <Route exact path='/hl7/:id' component={ShowHL7Document} />
-              <Route path='/hl7/:id/edit' component={UpdateHL7Document} />
+              <Route exact path="/hl7" component={ShowAllHL7Documents} />
+              <Route exact path="/hl7/new" component={CreateHL7Document} />
+              <Route exact path="/hl7/:id" component={ShowHL7Document} />
+              <Route path="/hl7/:id/edit" component={UpdateHL7Document} />
             </Switch>
 
             <br />
