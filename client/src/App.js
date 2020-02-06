@@ -43,35 +43,32 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <header className="App-header">
 
-            <Navbar />
-            <AuthMessage/>
-            <br />
+          <Navbar />
+          {/* <AuthMessage/> */}
 
-            <Switch>
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/profile" component={Profile} />
-            </Switch>
+          <Route exact path="/" component={Landing} />
 
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/users/new" component={CreateUser} />
-              <PrivateRoute exact path="/users" component={ShowAllUsers} />
-              <PrivateRoute exact path="/users/:id" component={ShowUser} />
-              <PrivateRoute path="/users/:id/edit" component={UpdateUser} />
-            </Switch>
+          <Switch>
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/profile" component={Profile} />
+          </Switch>
 
-            <Switch>
-              <Route exact path="/hl7" component={ShowAllHL7Documents} />
-              <Route exact path="/hl7/new" component={CreateHL7Document} />
-              <Route exact path="/hl7/:id" component={ShowHL7Document} />
-              <Route path="/hl7/:id/edit" component={UpdateHL7Document} />
-            </Switch>
+          <Switch>
+            <PrivateRoute exact path="/users" component={ShowAllUsers} />
+            <PrivateRoute exact path="/users/new" component={CreateUser} />
+            <PrivateRoute exact path="/users/:id" component={ShowUser} />
+            <PrivateRoute path="/users/:id/edit" component={UpdateUser} />
+          </Switch>
 
-            <br />
-          </header>
+          <Switch>
+            <PrivateRoute exact path="/hl7" component={ShowAllHL7Documents} />
+            <PrivateRoute exact path="/hl7/new" component={CreateHL7Document} />
+            <PrivateRoute exact path="/hl7/:id" component={ShowHL7Document} />
+            <PrivateRoute path="/hl7/:id/edit" component={UpdateHL7Document} />
+          </Switch>
+
         </Router>
       </div>
     );
