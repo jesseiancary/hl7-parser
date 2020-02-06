@@ -5,6 +5,10 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 
+import { Register } from './controllers/Account';
+import { Login } from './controllers/Account';
+import { Profile } from './controllers/Account';
+
 import { LoginUser } from './controllers/Users';
 import { ShowAllUsers } from './controllers/Users';
 import { CreateUser } from './controllers/Users';
@@ -21,7 +25,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     localStorage.usertoken !== undefined
       ? <Component {...props} />
       : <Redirect to={{
-          pathname: '/users/login',
+          pathname: '/login',
           state: { from: props.location }
         }} />
   )} />
@@ -45,6 +49,12 @@ class App extends Component {
             <Navbar />
             <AuthMessage/>
             <br />
+
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/profile" component={Profile} />
+            </Switch>
 
             <Switch>
               <Route exact path="/" component={Landing} />
