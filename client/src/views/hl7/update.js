@@ -1,48 +1,52 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Nav from './nav';
 
 class UpdateView extends Component {
   render() {
     const t = this.props.this;
     return (
-      <div className="update hl7-document">
-        <div className="container">
-
+      <main className="update hl7-document">
+        <div className="container mt-5">
           <div className="row">
-            <div className="col-md-8 m-auto">
-              <br />
-              <Link to="/hl7" className="btn btn-outline-warning">
-                Show All HL7 Documents
-              </Link>
-              <br />
-              <br />
-            </div>
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Edit HL7</h1>
-            </div>
-          </div>
-  
-          <div className="col-md-8 m-auto">
-            <form noValidate onSubmit={t.onSubmit}>
+            <div className="col-lg-12">
 
-                <div className="form-group">
-                  <textarea
-                    name="hl7_data"
-                    placeholder="HL7 Data"
-                    className="form-control"
-                    value={t.state.hl7_data}
-                    onChange={t.onChange}
-                  />
+              <Nav />
+
+              <div className="jumbotron">
+
+                <h1 className="display-3 text-center">Edit HL7</h1>
+                <hr className="my-4" />
+
+                <div className="alert alert-dismissible alert-danger mb-5">
+                  <button type="button" className="close" data-dismiss="alert">×</button>
+                  <h4 className="alert-heading">Warning!</h4>
+                  <p className="mb-0">This app is not HIPPA compliant, REMOVE/REPLACE ANY SENSITIVE PATIENT IDENTIFIABLE INFORMATION LIKE Name, Address, Email, Phone, etc. For more information regarding HIPPA compliance and regulations, <a href="https://www.hhs.gov/hipaa/index.html" target="_blank" rel="noopener noreferrer">click here</a>.</p>
                 </div>
-  
-              <button type="submit" className="btn btn-outline-info btn-lg btn-block">Update HL7</button>
-              <br />
 
-            </form>
+                <form noValidate onSubmit={t.onSubmit}>
+
+                  <div className="form-group">
+                    <textarea
+                      rows="15"
+                      name="hl7_data"
+                      placeholder="HL7 Data"
+                      className="form-control"
+                      value={t.state.hl7_data}
+                      onChange={t.onChange}
+                    />
+                  </div>
+                  <div className="text-right">
+                    <button type="submit" className="btn btn-info btn-lg">Update HL7</button>
+                  </div>
+
+                </form>
+
+              </div>
+
+            </div>
           </div>
-  
         </div>
-      </div>
+      </main>
     );
   }
 }
