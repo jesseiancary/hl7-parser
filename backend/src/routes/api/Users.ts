@@ -1,6 +1,7 @@
 'use strict'
 
 import UserController from '../../controllers/User';
+const User = new UserController();
 
 exports.plugin = {
   register: (server, options, next) => {
@@ -8,43 +9,43 @@ exports.plugin = {
     server.route({
       method: 'POST',
       path: '/users',
-      handler: UserController.create
+      handler: User.create
     }),
   
     server.route({
       method: 'GET',
       path: '/users',
-      handler: UserController.find
+      handler: User.find
     }),
   
     server.route({
       method: 'GET',
       path: '/users/{id}',
-      handler: UserController.findOne
+      handler: User.findOne
     }),
   
     server.route({
       method: 'PUT',
       path: '/users/{id}',
-      handler: UserController.update
+      handler: User.update
     }),
   
     server.route({
       method: 'DELETE',
       path: '/users/{id}',
-      handler: UserController.delete
+      handler: User.delete
     }),
   
     server.route({
       method: 'POST',
       path: '/users/login',
-      handler: UserController.login
+      handler: User.login
     }),
   
     server.route({
       method: 'GET',
       path: '/users/{id}/profile',
-      handler: UserController.profile
+      handler: User.profile
     })
 
   },
