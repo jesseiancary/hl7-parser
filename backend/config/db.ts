@@ -1,5 +1,8 @@
-const mongoose = require('mongoose');
-const config = require('config');
+'use strict'
+
+import mongoose from 'mongoose';
+import config from 'config';
+
 const mongoDbUri = config.get('mongoURI');
 // require('../models/models');
 
@@ -29,4 +32,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+export default connectDB;

@@ -1,9 +1,9 @@
 'use strict'
 
-const HL7 = require('../models/HL7');
-const hl7Parser = require('./hl7-parser');
+import HL7 from '../models/HL7';
+import HL7Parser from './hl7-parser';
 
-module.exports = {
+export default {
 
   // @route POST /api/hl7
   // @description Add an HL7 document
@@ -12,7 +12,8 @@ module.exports = {
     // data validation???
     return HL7.create(req.payload)
     .then(hl7 => {
-      return hl7Parser.getJson(hl7.hl7_data)
+      const hl7Parser = new HL7Parser(hl7.hl7_data);
+      return hl7Parser.getJson()
       .then(jsonData => {
         return HL7.findByIdAndUpdate(hl7._id, { hl7_data: req.payload.hl7_data, json_data: jsonData }, { new: true })
         .then(hl7_and_json => {
@@ -63,7 +64,8 @@ module.exports = {
   // @access Public
   async update(req, h) {
     if (!req.params.id) return h.response({ error: 'id is required param' }).code(400);
-    return hl7Parser.getJson(req.payload.hl7_data)
+    const hl7Parser = new HL7Parser(req.payload.hl7_data);
+    return hl7Parser.getJson()
     .then(jsonData => {
       return HL7.findByIdAndUpdate(req.params.id, { hl7_data: req.payload.hl7_data, json_data: jsonData }, { new: true })
       .then(hl7_and_json => {

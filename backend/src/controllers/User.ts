@@ -1,13 +1,13 @@
 'use strict'
 
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
+import User from '../models/User';
 
 process.env.SECRET_KEY = 'secret';
 
-module.exports = {
+export default {
 
   // @route POST /api/users
   // @description Create a user

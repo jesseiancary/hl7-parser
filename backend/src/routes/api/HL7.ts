@@ -1,6 +1,6 @@
 'use strict'
 
-const HL7Controller = require('../../controllers/HL7');
+import HL7Controller from '../../controllers/HL7';
 
 exports.plugin = {
   register: (server, options, next) => {

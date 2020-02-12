@@ -36,19 +36,6 @@ const
     { name: 'universal_id_type', position: 3, length: 6,   type: ID, required: 'C' }
   ],
 
-  // FINANCIAL CLASS
-  FC = [
-    { name: 'financial_class_code', position: 1, length: 20, type: IS, required: 'R' },
-    { name: 'effective_date',       position: 2, length: 26, type: TS, required: 'O' }
-  ],
-
-  // DISCHARGE LOCATION AND DATE
-  // Specifies the healthcare facility to which the patient was discharged and the date.
-  DLD = [
-    { name: 'discharge_location', position: 1, length: 20, type: IS, required: 'R' },
-    { name: 'effective_date',     position: 2, length: 26, type: TS, required: 'O' }
-  ],
-
   // CODED ELEMENT
   // This data type transmits codes and the text associated with the code.
   CE = [
@@ -96,7 +83,7 @@ const
 
   // COMPOSITE QUANTITY WITH UNITS
   CQ = [
-    { name: 'quantity', position: 1, length: 16,  type: NM, required: 'O' },
+    { name: 'quantity', position: 1, length: 16, type: NM, required: 'O' },
     { name: 'units',    position: 2, length: 483, type: ST, required: 'O' }
   ],
 
@@ -427,10 +414,9 @@ const
     { name: 'speed_dial_code',                  position: 11, length: 6,   type: ST, required: 'O' },
     { name: 'unformatted_telephone_number',     position: 12, length: 199, type: ST, required: 'C' }
   ],
-
   /*****************************************************************************
-   * Component (line) Definitions
-   *****************************************************************************/
+ Component (line) Definitions
+ *****************************************************************************/
 
   // MESSAGE HEADER
   // The MSH segment defines the intent, source, destination, and some
@@ -503,68 +489,6 @@ const
     { name: 'strain',                         position: 37, length: 80,  type: ST,  required: 'O', repeat: 1 },
     { name: 'production_class_code',          position: 38, length: 250, type: CE,  required: 'O', repeat: 1 },
     { name: 'tribal_citizenship',             position: 39, length: 250, type: CWE, required: 'O', repeat: 0 }
-  ],
-
-  // PATIENT VISIT
-  // The PV1 segment is used by Registration/Patient Administration applications
-  // to communicate information on an account or visit-specific basis. The default
-  // is to send account level data. To use this segment for visit level data
-  // PV1-51 - Visit Indicator must be valued to V. The value of PV-51 affects the
-  // level of data being sent on the PV1, PV2, and any other segments that are
-  // part of the associated PV1 hierarchy (e.g. ROL, DG1, or OBX).
-  PV1 = [
-    { name: 'set_id',                    position: 1,  length: 4,   type: SI,  required: 'O', repeat: 1 },
-    { name: 'patient_class',             position: 2,  length: 1,   type: IS,  required: 'R', repeat: 1 },
-    { name: 'assigned_patient_location', position: 3,  length: 80,  type: PL,  required: 'O', repeat: 1 },
-    { name: 'admission_type',            position: 4,  length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'preadmit_number',           position: 5,  length: 250, type: CX,  required: 'O', repeat: 1 },
-    { name: 'prior_patient_location',    position: 6,  length: 80,  type: PL,  required: 'O', repeat: 1 },
-    { name: 'attending_doctor',          position: 7,  length: 250, type: XCN, required: 'O', repeat: 0 },
-    { name: 'referring_doctor',          position: 8,  length: 250, type: XCN, required: 'O', repeat: 0 },
-    { name: 'consulting_doctor',         position: 9,  length: 250, type: XCN, required: 'B', repeat: 0 },
-    { name: 'hospital_service',          position: 10, length: 3,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'temporary_location',        position: 11, length: 80,  type: PL,  required: 'O', repeat: 1 },
-    { name: 'preadmit_test_indicator',   position: 12, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'readmission_indicator',     position: 13, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'admit_source',              position: 14, length: 6,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'ambulatory_status',         position: 15, length: 2,   type: IS,  required: 'O', repeat: 0 },
-    { name: 'vip_indicator',             position: 16, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'admitting_doctor',          position: 17, length: 250, type: XCN, required: 'O', repeat: 0 },
-    { name: 'patient_type',              position: 18, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'visit_number',              position: 19, length: 250, type: CX,  required: 'O', repeat: 1 },
-    { name: 'financial_class',           position: 20, length: 50,  type: FC,  required: 'O', repeat: 0 },
-    { name: 'charge_price_indicator',    position: 21, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'courtesy_code',             position: 22, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'credit_rating',             position: 23, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'contract_code',             position: 24, length: 2,   type: IS,  required: 'O', repeat: 0 },
-    { name: 'contract_effective_date',   position: 25, length: 8,   type: DT,  required: 'O', repeat: 0 },
-    { name: 'contract_amount',           position: 26, length: 12,  type: NM,  required: 'O', repeat: 0 },
-    { name: 'contract_period',           position: 27, length: 3,   type: NM,  required: 'O', repeat: 0 },
-    { name: 'interest_code',             position: 28, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'transfer_to_bad_debt_code', position: 29, length: 4,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'transfer_to_bad_debt_date', position: 30, length: 8,   type: DT,  required: 'O', repeat: 1 },
-    { name: 'bad_debt_agency_code',      position: 31, length: 10,  type: IS,  required: 'O', repeat: 1 },
-    { name: 'bad_debt_transfer_amount',  position: 32, length: 12,  type: NM,  required: 'O', repeat: 1 },
-    { name: 'bad_debt_recovery_amount',  position: 33, length: 12,  type: NM,  required: 'O', repeat: 1 },
-    { name: 'delete_account_indicator',  position: 34, length: 1,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'delete_account_date',       position: 35, length: 8,   type: DT,  required: 'O', repeat: 1 },
-    { name: 'discharge_disposition',     position: 36, length: 3,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'discharged_to_location',    position: 37, length: 47,  type: DLD, required: 'O', repeat: 1 },
-    { name: 'diet_type',                 position: 38, length: 250, type: CE,  required: 'O', repeat: 1 },
-    { name: 'servicing_facility',        position: 39, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'bed_status',                position: 40, length: 1,   type: IS,  required: 'B', repeat: 1 },
-    { name: 'account_status',            position: 41, length: 2,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'pending_location',          position: 42, length: 80,  type: PL,  required: 'O', repeat: 1 },
-    { name: 'prior_temporary_location',  position: 43, length: 80,  type: PL,  required: 'O', repeat: 1 },
-    { name: 'admit_datetime',            position: 44, length: 26,  type: TS,  required: 'O', repeat: 1 },
-    { name: 'discharge_datetime',        position: 45, length: 26,  type: TS,  required: 'O', repeat: 0 },
-    { name: 'current_patient_balance',   position: 46, length: 12,  type: NM,  required: 'O', repeat: 1 },
-    { name: 'total_charges',             position: 47, length: 12,  type: NM,  required: 'O', repeat: 1 },
-    { name: 'total_adjustments',         position: 48, length: 12,  type: NM,  required: 'O', repeat: 1 },
-    { name: 'total_payments',            position: 49, length: 12,  type: NM,  required: 'O', repeat: 1 },
-    { name: 'alternate_visit_id',        position: 50, length: 250, type: CX,  required: 'O', repeat: 1 },
-    { name: 'visit_indicator',           position: 51, length: 1,   type: IS,  required: 'O', repeat: 1 },
-    { name: 'other_healthcare_provider', position: 52, length: 250, type: XCN, required: 'B', repeat: 0 }
   ],
 
   // COMMON ORDER
@@ -698,10 +622,9 @@ const
     { name: 'comment_type',      position: 4, length: 250,   type: CE, required: 'O', repeat: 1 }
   ];
 
-module.exports = {
+export default {
   MSH: MSH,
   PID: PID,
-  PV1: PV1,
   ORC: ORC,
   OBR: OBR,
   OBX: OBX,
