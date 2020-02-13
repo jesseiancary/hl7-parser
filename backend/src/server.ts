@@ -2,7 +2,7 @@
 
 // import Path from 'path';
 // import * as Hapi from 'hapi';
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 import connectDB from '../config/db';
 import config from 'config';
 import routes from './routes/routes';
