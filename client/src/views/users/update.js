@@ -52,7 +52,7 @@ class UpdateView extends Component {
                     />
                   </div>
 
-                  <div className='form-group'>
+                  {/* <div className='form-group'>
                     <input
                       type='password'
                       name='password'
@@ -61,7 +61,7 @@ class UpdateView extends Component {
                       value={t.state.password}
                       onChange={t.onChange}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="text-right">
                     <button type="submit" className="btn btn-info btn-lg mb-2">Update</button>
