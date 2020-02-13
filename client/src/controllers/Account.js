@@ -10,6 +10,8 @@ import ProfileView from '../views/account/profile';
 
 const api = 'http://localhost:3001/api/users';
 
+if (localStorage.usertoken !== undefined) axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.usertoken}`;
+
 /*
  * @route /login
  * @description Log in a user
@@ -36,8 +38,10 @@ export class Login extends Component {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     axios
       .post(`${api}/login`, {
-        email: this.state.email,
-        password: this.state.password
+        user: {
+          email: this.state.email,
+          password: this.state.password
+        }
       })
       .then(res => {
         if (res.data.token) {
@@ -45,6 +49,8 @@ export class Login extends Component {
           this.props.history.push(from.pathname);
         } else if (res.data.error) {
           this.setState({ error: res.data.error });
+        } else {
+          this.setState({ error: 'There was an error logging in.' });
         }
       })
       .catch(err => {
@@ -81,9 +87,16 @@ export class Register extends Component {
   onSubmit = e => {
     e.preventDefault();
     axios
-      .post(api, this.state)
+      .post(api, { user: this.state })
       .then(res => {
-        this.props.history.push('/login');
+        if (res.data.token) {
+          localStorage.setItem('usertoken', res.data.token);
+          this.props.history.push('/profile');
+        } else if (res.data.error) {
+          this.setState({ error: res.data.error });
+        } else {
+          this.setState({ error: 'There was an error registering the user.' });
+        }
       })
       .catch(err => {
         this.setState({ error: 'There was an error registering the user.' });
@@ -113,11 +126,10 @@ export class Profile extends Component {
   }
 
   componentDidMount() {
-    const decoded = jwt_decode(localStorage.usertoken);
     axios
-      .get(`${api}/${decoded.id}`)
+      .get(`${api}/profile`)
       .then(res => {
-        this.setState(global.modelData(user, res.data));
+        this.setState(global.modelData(user, res.data.user));
         this.setState({ _id: this.props.match.params.id });
       })
       .catch(err => {
@@ -133,7 +145,7 @@ export class Profile extends Component {
     e.preventDefault();
     const decoded = jwt_decode(localStorage.usertoken);
     axios
-      .put(`${api}/${decoded.id}`, this.state)
+      .put(`${api}/${decoded.id}`, { user: this.state })
       .then(res => {
         this.setState({ success: 'Profile updated successfully.' });
         this.props.history.push('/profile');

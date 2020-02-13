@@ -9,7 +9,10 @@ exports.plugin = {
     server.route({
       method: 'POST',
       path: '/users',
-      handler: User.create
+      handler: User.create,
+      options: {
+        auth: false
+      }
     }),
   
     server.route({
@@ -39,12 +42,15 @@ exports.plugin = {
     server.route({
       method: 'POST',
       path: '/users/login',
-      handler: User.login
+      handler: User.login,
+      options: {
+        auth: false
+      }
     }),
   
     server.route({
       method: 'GET',
-      path: '/users/{id}/profile',
+      path: '/users/profile',
       handler: User.profile
     })
 

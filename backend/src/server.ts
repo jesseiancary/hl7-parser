@@ -6,6 +6,8 @@ import { Server } from '@hapi/hapi';
 import connectDB from '../config/db';
 import config from 'config';
 import routes from './routes/routes';
+import AuthBearer from 'hapi-auth-bearer-token';
+import AuthAndAttachUser from './plugins/auth';
 
 const server: Server = new Server({
   host: config.get('host'),
@@ -19,6 +21,10 @@ const server: Server = new Server({
 connectDB();
 
 const init = async () => {
+
+  await server.register({plugin: AuthBearer});
+  server.auth.strategy('simple', 'bearer-access-token', AuthAndAttachUser );
+  server.auth.default('simple');
 
   await server.register(
     routes,

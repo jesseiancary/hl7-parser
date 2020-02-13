@@ -30,11 +30,18 @@ export class CreateUser extends Component {
   onSubmit = e => {
     e.preventDefault();
     axios
-      .post(api, this.state)
+      .post(api, { user: this.state })
       .then(res => {
-        this.props.history.push('/users');
+        if (res.data.user) {
+          this.props.history.push('/users');
+        } else if (res.data.error) {
+          this.setState({ error: res.data.error });
+        } else {
+          this.setState({ error: 'There was an error registering the user.' });
+        }
       })
       .catch(err => {
+        this.setState({ error: 'There was an error creating the user.' });
         console.log('Error in CreateUser.onSubmit()', err);
       });
   };
@@ -64,7 +71,7 @@ export class UpdateUser extends Component {
     axios
       .get(`${api}/${this.props.match.params.id}`)
       .then(res => {
-        this.setState(global.modelData(user, res.data));
+        this.setState(global.modelData(user, res.data.user));
         this.setState({ _id: this.props.match.params.id });
       })
       .catch(err => {
@@ -79,9 +86,15 @@ export class UpdateUser extends Component {
   onSubmit = e => {
     e.preventDefault();
     axios
-      .put(`${api}/${this.props.match.params.id}`, this.state)
+      .put(`${api}/${this.props.match.params.id}`, { user: this.state })
       .then(res => {
-        this.props.history.push(`/users/${this.props.match.params.id}`);
+        if (res.data.user) {
+          this.props.history.push(`/users/${this.props.match.params.id}`);
+        } else if (res.data.error) {
+          this.setState({ error: res.data.error });
+        } else {
+          this.setState({ error: 'There was an error updating the user.' });
+        }
       })
       .catch(err => {
         this.setState({ error: 'There was an error updating the user.' });
@@ -113,7 +126,7 @@ export class ShowUser extends Component {
     axios
       .get(`${api}/${this.props.match.params.id}`)
       .then(res => {
-        this.setState(global.modelData(user, res.data));
+        this.setState(global.modelData(user, res.data.user));
         this.setState({ _id: this.props.match.params.id });
       })
       .catch(err => {
@@ -158,7 +171,7 @@ export class ShowAllUsers extends Component {
       .get(api)
       .then(res => {
         this.setState({
-          users: res.data
+          users: res.data.users
         })
       })
       .catch(err => {

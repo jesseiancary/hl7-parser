@@ -5,6 +5,7 @@ export interface IUser extends Document {
   last_name: string;
   email: string;
   password?: string;
+  salt?: string;
 }
 
 const UserSchema: Schema = new Schema({
@@ -19,12 +20,24 @@ const UserSchema: Schema = new Schema({
 
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    lowercase: true
   },
 
   password: {
     type: String,
     required: true
+  },
+
+  salt: {
+    type: String,
+    required: true
+  },
+
+  role: {
+    type: String,
+    default: 'user' // Possible values: user | admin 
   }
 
 }, {
