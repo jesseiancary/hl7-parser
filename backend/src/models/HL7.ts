@@ -3,6 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface IHl7 extends Document {
   hl7_data: string;
   json_data: object;
+  owner: string;
 }
 
 const HL7Schema: Schema = new Schema({
@@ -12,10 +13,16 @@ const HL7Schema: Schema = new Schema({
     required: true
   },
 
-  json_data: Object
+  json_data: Object,
+
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 
 }, {
   timestamps: true
 });
 
-export default model<IHl7 & Document>('hl7', HL7Schema);
+export default model<IHl7 & Document>('HL7', HL7Schema);
