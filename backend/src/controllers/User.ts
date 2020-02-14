@@ -209,4 +209,4 @@ export default class User {
     }, process.env.SECRET_KEY, { expiresIn: '6h' });
   }
 
-};
+}
