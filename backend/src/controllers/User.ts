@@ -177,7 +177,7 @@ export default class User {
   // @access Public
   public async profile(req, h): Promise<any> {
     return UserModel.findOne({
-      _id: mongoose.Types.ObjectId(req.auth.artifacts.user.id)
+      _id: mongoose.Types.ObjectId(req.currentUser.id)
     })
     .then(user => {
       if (user) {

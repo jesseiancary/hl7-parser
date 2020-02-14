@@ -1,22 +1,15 @@
 'use strict'
 
-import UserModel from '../models/User';
 import * as jwt from 'jsonwebtoken';
 import * as Promise from "bluebird";
 
 process.env.SECRET_KEY = 'MySuP3R_z3kr3t.'; // @TODO move this to an env var
 
-const AuthAndAttachUser = {
+const AuthStrategy = {
   validate: async (req, token, h) => {
     return Promise.try(() => jwt.verify(token, process.env.SECRET_KEY))
     .then(decoded => {
-      return UserModel.findById(decoded.data.id)
-      .then(user => {
-        return { isValid: true, credentials: { token }, artifacts: { user: user } };
-      })
-      .catch(err => {
-        return { isValid: false, credentials: {}, artifacts: { error: err } };
-      });
+      return { isValid: true, credentials: { token }, artifacts: { user_id: decoded.data.id } };
     })
     .catch(err => {
       return { isValid: false, credentials: {}, artifacts: { error: err } };
@@ -24,4 +17,4 @@ const AuthAndAttachUser = {
   }
 }
 
-export default AuthAndAttachUser;
+export default AuthStrategy;
