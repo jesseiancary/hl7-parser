@@ -18,7 +18,12 @@ exports.plugin = {
     server.route({
       method: 'GET',
       path: '/users',
-      handler: User.find
+      config: {
+        auth: {
+          scope: ['admin']
+        },
+        handler: User.find
+      }
     }),
   
     server.route({
@@ -36,7 +41,12 @@ exports.plugin = {
     server.route({
       method: 'DELETE',
       path: '/users/{id}',
-      handler: User.delete
+      config: {
+        auth: {
+          scope: ['admin']
+        },
+        handler: User.delete
+      }
     }),
   
     server.route({
