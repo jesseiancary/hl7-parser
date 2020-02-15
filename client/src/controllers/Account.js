@@ -46,6 +46,7 @@ export class Login extends Component {
       .then(res => {
         if (res.data.token) {
           localStorage.setItem('usertoken', res.data.token);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
           this.props.history.push(from.pathname);
         } else if (res.data.error) {
           this.setState({ error: res.data.error });

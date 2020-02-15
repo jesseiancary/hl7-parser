@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import axios from 'axios';
 
 class Landing extends Component {
   logOut(e) {
     e.preventDefault()
     localStorage.removeItem('usertoken')
+    delete axios.defaults.headers.common['Authorization'];
     this.props.history.push(`/`)
   }
 
