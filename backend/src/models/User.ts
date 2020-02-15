@@ -35,9 +35,9 @@ const UserSchema: Schema = new Schema({
     required: true
   },
 
-  role: {
-    type: String,
-    default: 'user' // Possible values: user | admin 
+  scope: {
+    type: Array,
+    default: ['user']
   }
 
 }, {
