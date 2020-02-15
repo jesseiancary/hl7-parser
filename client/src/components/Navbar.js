@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import axios from 'axios'
 
-class Landing extends Component {
+class NavBar extends Component {
 
   logOut(e) {
     e.preventDefault()
@@ -79,4 +79,4 @@ class Landing extends Component {
 
 }
 
-export default withRouter(Landing)
+export default withRouter(NavBar)
