@@ -7,6 +7,7 @@ import user from '../models/User.js'
 import LoginView from '../views/account/login'
 import RegisterView from '../views/account/register'
 import ProfileView from '../views/account/profile'
+import LoginAsView from '../views/account/login-as'
 
 const api = 'http://localhost:3001/api/users'
 
@@ -63,6 +64,59 @@ export class Login extends Component {
   render() {
     return (
       <LoginView this={this} />
+    )
+  }
+
+}
+
+/*
+ * @route /login
+ * @description Log in a user
+ */
+export class LoginAs extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      email: '',
+      error: ''
+    }
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+    axios
+      .post(`${api}/login-as`, {
+        user: {
+          email: this.state.email
+        }
+      })
+      .then(res => {
+        if (res.data.token) {
+          localStorage.setItem('usertoken', res.data.token)
+          axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+          this.props.history.push('/')
+        } else if (res.data.error) {
+          this.setState({ error: res.data.error })
+        } else {
+          this.setState({ error: 'There was an error logging in.' })
+        }
+      })
+      .catch(err => {
+        this.setState({ error: err.response.status === 403 ? 'You do not have permission to log in as another user.' : err.response.data.message })
+        console.log('Error in LoginAs.onSubmit()', err)
+      })
+  }
+
+  render() {
+    return (
+      <LoginAsView this={this} />
     )
   }
 

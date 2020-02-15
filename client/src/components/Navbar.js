@@ -32,6 +32,9 @@ class NavBar extends Component {
         <a href="#" onClick={this.logOut.bind(this)} className="dropdown-item">
           <i className="fas fa-sign-out-alt fa-fw"></i> Logout
         </a>
+        <Link to="/login-as" className="dropdown-item">
+          <i className="fas fa-sign-in-alt fa-fw"></i> Login As
+        </Link>
       </div>
     )
 

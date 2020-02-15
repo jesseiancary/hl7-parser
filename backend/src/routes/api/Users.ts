@@ -59,6 +59,17 @@ exports.plugin = {
     }),
   
     server.route({
+      method: 'POST',
+      path: '/users/login-as',
+      config: {
+        auth: {
+          scope: ['admin']
+        },
+        handler: User.loginAs
+      }
+    }),
+  
+    server.route({
       method: 'GET',
       path: '/users/profile',
       handler: User.profile

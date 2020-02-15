@@ -198,6 +198,33 @@ export default class User {
     })
   }
 
+  public async loginAs(req, h): Promise<any> {
+    return UserModel.findOne({
+      email: req.payload.user.email
+    })
+    .then(user => {
+      if (user) {
+        return User.generateJWT(user)
+        .then(token => {
+          return h.response({
+            user: {
+              id: user._id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              email: user.email
+            },
+            token
+          })
+        })
+        .catch(err => {
+          return h.response({ error: err.message }).code(500)
+        })
+      } else {
+        return h.response({ error: 'User does not exist.' })
+      }
+    })
+  }
+
   static async generateJWT(user): Promise<String> {
     return jwt.sign({
       data: {
