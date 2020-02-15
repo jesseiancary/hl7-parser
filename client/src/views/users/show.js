@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Nav from './nav';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import Nav from './nav'
 
 class ShowView extends Component {
   render() {
-    const t = this.props.this;
+    const t = this.props.this
     return (
       <main className="show user">
         <div className="container mt-5">
@@ -58,8 +58,8 @@ class ShowView extends Component {
           
         </div>
       </main>
-    );
+    )
   }
 }
 
-export default ShowView;
+export default ShowView

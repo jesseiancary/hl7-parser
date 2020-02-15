@@ -3,4 +3,4 @@ export default {
   last_name: '',
   email: '',
   password: ''
-};
+}

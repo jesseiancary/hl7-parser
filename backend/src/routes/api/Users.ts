@@ -1,7 +1,7 @@
 'use strict'
 
-import UserController from '../../controllers/User';
-const User = new UserController();
+import UserController from '../../controllers/User'
+const User = new UserController()
 
 exports.plugin = {
   register: (server, options, next) => {

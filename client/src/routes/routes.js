@@ -1,15 +1,15 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
-import Navbar from '../components/Navbar';
-import Landing from '../components/Landing';
+import Navbar from '../components/Navbar'
+import Landing from '../components/Landing'
 
-import AccountRoutes from './accounts';
-import UserRoutes from './users';
-import Hl7Routes from './hl7';
+import AccountRoutes from './accounts'
+import UserRoutes from './users'
+import Hl7Routes from './hl7'
 
-import { createBrowserHistory } from "history";
-const history = createBrowserHistory();
+import { createBrowserHistory } from "history"
+const history = createBrowserHistory()
 
 // const AuthMessage = withRouter(({ history }) => (
 //   localStorage.usertoken !== undefined ? (
@@ -17,7 +17,7 @@ const history = createBrowserHistory();
 //   ) : (
 //     <p>You are not logged in.</p>
 //   )
-// ));
+// ))
 
 export const Routes = () => (
   <Router history={history}>
@@ -31,7 +31,7 @@ export const Routes = () => (
     <Hl7Routes />
 
   </Router>
-);
+)
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -42,4 +42,4 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
           state: { from: props.location }
         }} />
   )} />
-);
+)

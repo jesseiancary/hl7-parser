@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Nav from './nav';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import Nav from './nav'
 
 class ShowAllView extends Component {
   render() {
-    const t = this.props.this;
-    const hl7Documents = t.state.hl7;
-    let hl7List;
+    const t = this.props.this
+    const hl7Documents = t.state.hl7
+    let hl7List
 
     if (!hl7Documents) {
-      hl7List = <p>There are no hl7 documents!</p>;
+      hl7List = <p>There are no hl7 documents!</p>
     } else {
       hl7List =
         <table className="table table-hover">
@@ -57,9 +57,9 @@ class ShowAllView extends Component {
           </div>
         </div>
       </main>
-    );
+    )
 
   }
 }
 
-export default ShowAllView;
+export default ShowAllView

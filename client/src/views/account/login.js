@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Nav from './nav';
+import React, { Component } from 'react'
+import Nav from './nav'
 
 class LoginView extends Component {
   render() {
-    const t = this.props.this;
+    const t = this.props.this
     return (
       <main className="login user">
         <div className="container mt-5">
@@ -51,8 +51,8 @@ class LoginView extends Component {
           </div>
         </div>
       </main>
-    );
+    )
   }
 }
 
-export default LoginView;
+export default LoginView

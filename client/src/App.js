@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Routes } from './routes/routes';
-import './App.css';
+import React, { Component } from 'react'
+import { Routes } from './routes/routes'
+import './App.css'
 
 class App extends Component {
   render() {
@@ -8,8 +8,8 @@ class App extends Component {
       <div className="App">
         <Routes />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

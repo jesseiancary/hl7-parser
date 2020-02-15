@@ -1,7 +1,7 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { PrivateRoute } from './routes';
-import { Register, Login, Profile } from '../controllers/Account';
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { PrivateRoute } from './routes'
+import { Register, Login, Profile } from '../controllers/Account'
 
 const Routes = () => (
   <Switch>
@@ -9,6 +9,6 @@ const Routes = () => (
     <Route exact path="/login" component={Login} />
     <PrivateRoute exact path="/profile" component={Profile} />
   </Switch>
-);
+)
 
-export default Routes;
+export default Routes

@@ -1,9 +1,9 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose'
 
 export interface IHl7 extends Document {
-  hl7_data: string;
-  json_data: object;
-  owner: string;
+  hl7_data: string
+  json_data: object
+  owner: string
 }
 
 const HL7Schema: Schema = new Schema({
@@ -23,6 +23,6 @@ const HL7Schema: Schema = new Schema({
 
 }, {
   timestamps: true
-});
+})
 
-export default model<IHl7 & Document>('HL7', HL7Schema);
+export default model<IHl7 & Document>('HL7', HL7Schema)

@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-// import Path from 'path';
-// import * as Hapi from 'hapi';
-import { Server } from '@hapi/hapi';
-import connectDB from '../config/db';
-import config from 'config';
-import routes from './routes/routes';
-import AuthBearer from 'hapi-auth-bearer-token';
-import AuthStrategy from './plugins/authStrategy';
-import attachCurrentUser from './plugins/attachCurrentUser';
+// import Path from 'path'
+// import * as Hapi from 'hapi'
+import { Server } from '@hapi/hapi'
+import connectDB from '../config/db'
+import config from 'config'
+import routes from './routes/routes'
+import AuthBearer from 'hapi-auth-bearer-token'
+import AuthStrategy from './plugins/authStrategy'
+import attachCurrentUser from './plugins/attachCurrentUser'
 
 const server: Server = new Server({
   host: config.get('host'),
@@ -17,16 +17,16 @@ const server: Server = new Server({
     // What does this do?
     cors: true
   }
-});
+})
 
-connectDB();
+connectDB()
 
 const init = async () => {
 
-  await server.register({plugin: AuthBearer});
-  server.auth.strategy('simple', 'bearer-access-token', AuthStrategy );
-  server.auth.default('simple');
-  server.ext('onPreHandler', attachCurrentUser);
+  await server.register({plugin: AuthBearer})
+  server.auth.strategy('simple', 'bearer-access-token', AuthStrategy )
+  server.auth.default('simple')
+  server.ext('onPreHandler', attachCurrentUser)
 
   await server.register(
     routes,
@@ -35,23 +35,23 @@ const init = async () => {
         prefix: '/api'
       }
     }
-  );
+  )
 
-  await server.start();
+  await server.start()
   // WHY DOES THIS THROW AN ERROR? CAN I DELETE IT IN LIEU OF THE unhandledRejection LISTENER BELOW?
   // await server.start((err: any) => {
   //   if (err) {
   //     console.log('Error starting backend server.', err)
-  //     throw err;
+  //     throw err
   //   }
-  // });
-  console.log(`Server is listening at ${server.info.uri}`);
+  // })
+  console.log(`Server is listening at ${server.info.uri}`)
 
 }
 
 process.on('unhandledRejection', (err) => {
-  console.log(err);
-  process.exit(1);
-});
+  console.log(err)
+  process.exit(1)
+})
 
-init();
+init()

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import axios from 'axios';
+import axios from 'axios'
 
 class Landing extends Component {
+
   logOut(e) {
     e.preventDefault()
     localStorage.removeItem('usertoken')
-    delete axios.defaults.headers.common['Authorization'];
+    delete axios.defaults.headers.common['Authorization']
     this.props.history.push(`/`)
   }
 
@@ -21,7 +22,7 @@ class Landing extends Component {
           <i className="fas fa-user-plus fa-fw"></i> Register
         </Link>
       </div>
-    );
+    )
 
     const loggedIn = (
       <div className="dropdown-menu dropdown-menu-right">
@@ -32,7 +33,7 @@ class Landing extends Component {
           <i className="fas fa-sign-out-alt fa-fw"></i> Logout
         </a>
       </div>
-    );
+    )
 
     return (
       <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
@@ -72,9 +73,10 @@ class Landing extends Component {
           </div>
         </div>
       </nav>
-    );
+    )
 
   }
+
 }
 
 export default withRouter(Landing)

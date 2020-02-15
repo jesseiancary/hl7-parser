@@ -1,7 +1,7 @@
 'use strict'
 
-import HL7Controller from '../../controllers/HL7';
-const HL7 = new HL7Controller();
+import HL7Controller from '../../controllers/HL7'
+const HL7 = new HL7Controller()
 
 exports.plugin = {
   register: (server, options, next) => {

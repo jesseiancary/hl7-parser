@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Nav from './nav';
+import React, { Component } from 'react'
+import Nav from './nav'
 
 class UpdateView extends Component {
   render() {
-    const t = this.props.this;
+    const t = this.props.this
     return (
       <main className="register user">
         <div className="container mt-5">
@@ -73,8 +73,8 @@ class UpdateView extends Component {
           </div>
         </div>
       </main>
-    );
+    )
   }
 }
 
-export default UpdateView;
+export default UpdateView

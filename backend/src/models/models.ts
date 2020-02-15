@@ -1,2 +1,2 @@
-require('./User');
-require('./HL7');
+require('./User')
+require('./HL7')
