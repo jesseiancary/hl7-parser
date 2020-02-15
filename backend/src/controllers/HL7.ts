@@ -14,7 +14,7 @@ export default class HL7 {
     // data validation???
     const hl7Document = {
       ...req.payload,
-      owner: req.currentUser._id
+      owner: req.auth.credentials._id
     }
     return HL7Model.create(hl7Document)
     .then(hl7 => {
@@ -45,7 +45,7 @@ export default class HL7 {
     // Get records from any owner:
     // return HL7Model.find().populate({ path: 'owner', select: '-password -salt' })
     // Get records from logged in user:
-    return HL7Model.find({ owner: req.currentUser._id }).populate({ path: 'owner', select: '-password -salt' })
+    return HL7Model.find({ owner: req.auth.credentials._id }).populate({ path: 'owner', select: '-password -salt' })
     .then(hl7 => {
       return h.response(hl7 ? hl7 : { error: 'No records found.' })
     })
@@ -62,7 +62,7 @@ export default class HL7 {
     // Get record from any owner:
     // return HL7Model.findById(req.params.id).populate({ path: 'owner', select: '-password -salt' }) 
     // Get record from logged in user:
-    return HL7Model.findOne({ _id: req.params.id, owner: req.currentUser._id }).populate({ path: 'owner', select: '-password -salt' })
+    return HL7Model.findOne({ _id: req.params.id, owner: req.auth.credentials._id }).populate({ path: 'owner', select: '-password -salt' })
     .then(hl7 => {
       return h.response(hl7 ? hl7 : { error: 'Record not found.' })
     })
@@ -82,7 +82,7 @@ export default class HL7 {
       // Update record from any owner:
       // return HL7Model.findByIdAndUpdate(req.params.id, { hl7_data: req.payload.hl7_data, json_data: jsonData }, { new: true }).populate({ path: 'owner', select: '-password -salt' })
       // Update record from logged in user:
-      return HL7Model.findOneAndUpdate({ _id: req.params.id, owner: req.currentUser._id }, { hl7_data: req.payload.hl7_data, json_data: jsonData }, { new: true }).populate({ path: 'owner', select: '-password -salt' })
+      return HL7Model.findOneAndUpdate({ _id: req.params.id, owner: req.auth.credentials._id }, { hl7_data: req.payload.hl7_data, json_data: jsonData }, { new: true }).populate({ path: 'owner', select: '-password -salt' })
       .then(hl7_and_json => {
         return h.response(hl7_and_json ? hl7_and_json : { error: 'Record not found.' })
       })

@@ -8,7 +8,6 @@ import config from 'config'
 import routes from './routes/routes'
 import AuthBearer from 'hapi-auth-bearer-token'
 import AuthStrategy from './plugins/authStrategy'
-import attachCurrentUser from './plugins/attachCurrentUser'
 
 const server: Server = new Server({
   host: config.get('host'),
@@ -26,7 +25,6 @@ const init = async () => {
   await server.register({plugin: AuthBearer})
   server.auth.strategy('simple', 'bearer-access-token', AuthStrategy )
   server.auth.default('simple')
-  server.ext('onPreHandler', attachCurrentUser)
 
   await server.register(
     routes,
