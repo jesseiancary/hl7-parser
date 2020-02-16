@@ -39,7 +39,7 @@ export class CreateHL7Document extends Component {
         }
       })
       .catch(err => {
-        console.log('Error in CreateHL7.onSubmit()', err)
+        console.log('Error in CreateHL7.onSubmit()', err.response)
       })
   }
 
@@ -72,7 +72,7 @@ export class UpdateHL7Document extends Component {
         this.setState({ _id: this.props.match.params.id })
       })
       .catch(err => {
-        console.log('Error in UpdateHL7.componentDidMount()', err)
+        console.log('Error in UpdateHL7.componentDidMount()', err.response)
       })
   }
 
@@ -88,7 +88,7 @@ export class UpdateHL7Document extends Component {
         this.props.history.push(`/hl7/${this.props.match.params.id}`)
       })
       .catch(err => {
-        console.log('Error in UpdateHL7.onSubmit()', err)
+        console.log('Error in UpdateHL7.onSubmit()', err.response)
       })
   }
 
@@ -120,7 +120,7 @@ export class ShowHL7Document extends Component {
         this.setState({ _id: this.props.match.params.id })
       })
       .catch(err => {
-        console.log('Error in ShowHL7.componentDidMount()', err)
+        console.log('Error in ShowHL7.componentDidMount()', err.response)
       })
   }
 
@@ -131,7 +131,7 @@ export class ShowHL7Document extends Component {
         this.props.history.push('/hl7')
       })
       .catch(err => {
-        console.log('Error in ShowHL7.onDeleteClick()', err)
+        console.log('Error in ShowHL7.onDeleteClick()', err.response)
       })
   }
 
@@ -165,7 +165,7 @@ export class ShowAllHL7Documents extends Component {
         })
       })
       .catch(err => {
-        console.log('Error in ShowAllHL7Documents.componentDidMount()', err)
+        console.log('Error in ShowAllHL7Documents.componentDidMount()', err.response)
       })
   }
 

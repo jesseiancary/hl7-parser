@@ -42,7 +42,7 @@ export class CreateUser extends Component {
       })
       .catch(err => {
         this.setState({ error: 'There was an error creating the user.' })
-        console.log('Error in CreateUser.onSubmit()', err)
+        console.log('Error in CreateUser.onSubmit()', err.response)
       })
   }
 
@@ -76,7 +76,7 @@ export class UpdateUser extends Component {
         this.setState({ _id: this.props.match.params.id })
       })
       .catch(err => {
-        console.log('Error in UpdateUser.componentDidMount()', err)
+        console.log('Error in UpdateUser.componentDidMount()', err.response)
       })
   }
 
@@ -99,7 +99,7 @@ export class UpdateUser extends Component {
       })
       .catch(err => {
         this.setState({ error: 'There was an error updating the user.' })
-        console.log('Error in UpdateUser.onSubmit()', err)
+        console.log('Error in UpdateUser.onSubmit()', err.response)
       })
   }
 
@@ -131,7 +131,7 @@ export class ShowUser extends Component {
         this.setState({ _id: this.props.match.params.id })
       })
       .catch(err => {
-        console.log('Error in ShowUser.componentDidMount()', err)
+        console.log('Error in ShowUser.componentDidMount()', err.response)
       })
   }
 
@@ -142,7 +142,7 @@ export class ShowUser extends Component {
         this.props.history.push('/users')
       })
       .catch(err => {
-        console.log('Error in ShowUser.onDeleteClick()', err)
+        console.log('Error in ShowUser.onDeleteClick()', err.response)
       })
   }
 
@@ -176,7 +176,7 @@ export class ShowAllUsers extends Component {
         })
       })
       .catch(err => {
-        console.log('Error in ShowAllUsers.componentDidMount()', err)
+        console.log('Error in ShowAllUsers.componentDidMount()', err.response)
       })
   }
 

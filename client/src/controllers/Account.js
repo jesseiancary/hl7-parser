@@ -57,7 +57,7 @@ export class Login extends Component {
       })
       .catch(err => {
         this.setState({ error: 'There was an error logging in.' })
-        console.log('Error in Login.onSubmit()', err)
+        console.log('Error in Login.onSubmit()', err.response)
       })
   }
 
@@ -110,7 +110,7 @@ export class LoginAs extends Component {
       })
       .catch(err => {
         this.setState({ error: err.response.status === 403 ? 'You do not have permission to log in as another user.' : err.response.data.message })
-        console.log('Error in LoginAs.onSubmit()', err)
+        console.log('Error in LoginAs.onSubmit()', err.response)
       })
   }
 
@@ -155,7 +155,7 @@ export class Register extends Component {
       })
       .catch(err => {
         this.setState({ error: 'There was an error registering the user.' })
-        console.log('Error in Register.onSubmit()', err)
+        console.log('Error in Register.onSubmit()', err.response)
       })
   }
 
@@ -188,7 +188,7 @@ export class Profile extends Component {
         this.setState({ _id: this.props.match.params.id })
       })
       .catch(err => {
-        console.log('Error in Profile.componentDidMount()', err)
+        console.log('Error in Profile.componentDidMount()', err.response)
       })
   }
 
@@ -207,7 +207,7 @@ export class Profile extends Component {
       })
       .catch(err => {
         this.setState({ error: 'There was an error updating profile.' })
-        console.log('Error in Profile.onSubmit()', err)
+        console.log('Error in Profile.onSubmit()', err.response)
       })
   }
 
