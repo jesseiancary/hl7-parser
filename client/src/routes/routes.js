@@ -12,7 +12,7 @@ import { createBrowserHistory } from "history"
 const history = createBrowserHistory()
 
 // const AuthMessage = withRouter(({ history }) => (
-//   localStorage.usertoken !== undefined ? (
+//   localStorage.user !== undefined ? (
 //     <p>You are logged in.</p>
 //   ) : (
 //     <p>You are not logged in.</p>
@@ -35,7 +35,7 @@ export const Routes = () => (
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    localStorage.usertoken !== undefined
+    localStorage.user !== undefined
       ? <Component {...props} />
       : <Redirect to={{
           pathname: '/login',

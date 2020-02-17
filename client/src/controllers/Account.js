@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
 import global from '../utils/global.js'
 import user from '../models/User.js'
 
@@ -11,7 +10,31 @@ import LoginAsView from '../views/account/login-as'
 
 const api = 'http://localhost:3001/api/users'
 
-if (localStorage.usertoken !== undefined) axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.usertoken}`
+axios.defaults.withCredentials = true
+
+/*
+ * @route /logout
+ * @description Log out a user
+ */
+export class Logout extends Component {
+
+  componentWillMount() {
+    axios
+      .post(`${api}/logout`)
+      .then(res => {
+        localStorage.removeItem('user')
+        this.props.history.push('/')
+      })
+      .catch(err => {
+        console.log('Error in Profile.componentWillMount()', err.response)
+      })
+  }
+
+  render() {
+    return null
+  }
+
+}
 
 /*
  * @route /login
@@ -45,9 +68,8 @@ export class Login extends Component {
         }
       })
       .then(res => {
-        if (res.data.token) {
-          localStorage.setItem('usertoken', res.data.token)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+        if (res.data.user) {
+          localStorage.setItem('user', res.data.user)
           this.props.history.push(from.pathname)
         } else if (res.data.error) {
           this.setState({ error: res.data.error })
@@ -70,8 +92,8 @@ export class Login extends Component {
 }
 
 /*
- * @route /login
- * @description Log in a user
+ * @route /login-as
+ * @description Log in admin user as another user
  */
 export class LoginAs extends Component {
 
@@ -98,9 +120,8 @@ export class LoginAs extends Component {
         }
       })
       .then(res => {
-        if (res.data.token) {
-          localStorage.setItem('usertoken', res.data.token)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+        if (res.data.user) {
+          localStorage.setItem('user', res.data.user)
           this.props.history.push('/')
         } else if (res.data.error) {
           this.setState({ error: res.data.error })
@@ -144,8 +165,8 @@ export class Register extends Component {
     axios
       .post(api, { user: this.state })
       .then(res => {
-        if (res.data.token) {
-          localStorage.setItem('usertoken', res.data.token)
+        if (res.data.user) {
+          localStorage.setItem('user', res.data.user)
           this.props.history.push('/profile')
         } else if (res.data.error) {
           this.setState({ error: res.data.error })
@@ -176,6 +197,7 @@ export class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = user
+    delete this.state.password
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -185,7 +207,7 @@ export class Profile extends Component {
       .get(`${api}/profile`)
       .then(res => {
         this.setState(global.modelData(user, res.data.user))
-        this.setState({ _id: this.props.match.params.id })
+        this.setState({ _id: res.data.user._id })
       })
       .catch(err => {
         console.log('Error in Profile.componentDidMount()', err.response)
@@ -198,12 +220,18 @@ export class Profile extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    const decoded = jwt_decode(localStorage.usertoken)
     axios
-      .put(`${api}/${decoded.id}`, { user: this.state })
+      .put(`${api}/${this.state._id}`, { user: this.state })
       .then(res => {
-        this.setState({ success: 'Profile updated successfully.' })
-        this.props.history.push('/profile')
+        if (res.data.user) {
+          localStorage.setItem('user', res.data.user)
+          this.setState({ success: 'Profile updated successfully.' })
+          this.props.history.push('/profile')
+        } else if (res.data.error) {
+          this.setState({ error: res.data.error })
+        } else {
+          this.setState({ error: 'There was an error updating profile.' })
+        }
       })
       .catch(err => {
         this.setState({ error: 'There was an error updating profile.' })

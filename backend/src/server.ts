@@ -6,15 +6,21 @@ import { Server } from '@hapi/hapi'
 import connectDB from '../config/db'
 import config from 'config'
 import routes from './routes/routes'
-import AuthBearer from 'hapi-auth-bearer-token'
-import AuthStrategy from './plugins/authStrategy'
+import Cookie from '@hapi/cookie'
+import CookieAuthStrategy from './plugins/authStrategy'
 
 const server: Server = new Server({
   host: config.get('host'),
   port: process.env.PORT || config.get('port'),
   routes: {
-    // What does this do?
-    cors: true
+    cors: {
+      origin: ['http://localhost:3000'],
+      additionalHeaders: [
+        'Access-Control-Allow-Origin',
+        'Access-Control-Allow-Headers'
+      ],
+      credentials: true
+    }
   }
 })
 
@@ -22,9 +28,15 @@ connectDB()
 
 const init = async () => {
 
-  await server.register({plugin: AuthBearer})
-  server.auth.strategy('simple', 'bearer-access-token', AuthStrategy )
-  server.auth.default('simple')
+  const cache = server.cache({
+    segment: 'sessions',
+    expiresIn: 3 * 24 * 60 * 60 * 1000 // Three days
+  })
+  server.app.cache = cache
+
+  await server.register({ plugin: Cookie })
+  server.auth.strategy('session', 'cookie', CookieAuthStrategy)
+  server.auth.default('session')
 
   await server.register(
     routes,

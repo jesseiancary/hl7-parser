@@ -3,10 +3,8 @@
 import UserModel from '../models/User'
 import argon2 from 'argon2'
 import { randomBytes } from 'crypto'
-import * as jwt from 'jsonwebtoken'
+import uuidv1 from 'uuid/v1'
 import mongoose from 'mongoose'
-
-process.env.SECRET_KEY = 'MySuP3R_z3kr3t.' // @TODO move this to an env var
 
 export default class User {
 
@@ -28,16 +26,18 @@ export default class User {
           req.payload.user.salt = salt.toString('hex')
           return UserModel.create(req.payload.user)
           .then(user => {
-            return User.generateJWT(user)
-            .then(token => {
+            const sid = uuidv1()
+            return req.server.app.cache.set(sid, { user }, 0)
+            .then(() => {
+              req.cookieAuth.set({ sid })
               return h.response({
                 user: {
-                  id: user._id,
+                  _id: user._id,
                   first_name: user.first_name,
                   last_name: user.last_name,
-                  email: user.email
-                },
-                token
+                  email: user.email,
+                  scope: user.scope
+                }
               })
             })
             .catch(err => {
@@ -82,10 +82,11 @@ export default class User {
     .then(user => {
       return h.response({
         user: {
-          id: user._id,
+          _id: user._id,
           first_name: user.first_name,
           last_name: user.last_name,
-          email: user.email
+          email: user.email,
+          scope: user.scope
         }
       })
     })
@@ -103,10 +104,11 @@ export default class User {
     .then(user => {
       return h.response({
         user: {
-          id: user._id,
+          _id: user._id,
           first_name: user.first_name,
           last_name: user.last_name,
-          email: user.email
+          email: user.email,
+          scope: user.scope
         }
       })
     })
@@ -141,16 +143,18 @@ export default class User {
         return argon2.verify(user.password, req.payload.user.password)
         .then(verified => {
           if (verified) {
-            return User.generateJWT(user)
-            .then(token => {
+            const sid = uuidv1()
+            return req.server.app.cache.set(sid, { user }, 0)
+            .then(() => {
+              req.cookieAuth.set({ sid })
               return h.response({
                 user: {
-                  id: user._id,
+                  _id: user._id,
                   first_name: user.first_name,
                   last_name: user.last_name,
-                  email: user.email
-                },
-                token
+                  email: user.email,
+                  scope: user.scope
+                }
               })
             })
             .catch(err => {
@@ -172,7 +176,16 @@ export default class User {
     })
   }
 
-  // @route GET /api/users/:id/profile
+  // @route GET /api/users/logout
+  // @description Log out user
+  // @access Public
+  public async logout(req, h): Promise<any> {
+    req.server.app.cache.drop(req.state['authentication'].sid)
+    req.cookieAuth.clear()
+    return h.response
+  }
+
+  // @route GET /api/users/profile
   // @description Get user profile
   // @access Public
   public async profile(req, h): Promise<any> {
@@ -183,10 +196,11 @@ export default class User {
       if (user) {
         return h.response({
           user: {
-            id: user._id,
+            _id: user._id,
             first_name: user.first_name,
             last_name: user.last_name,
-            email: user.email
+            email: user.email,
+            scope: user.scope
           }
         })
       } else {
@@ -198,22 +212,27 @@ export default class User {
     })
   }
 
+  // @route POST /api/users/login-as
+  // @description Log in admin user as another user
+  // @access Public
   public async loginAs(req, h): Promise<any> {
     return UserModel.findOne({
       email: req.payload.user.email
     })
     .then(user => {
       if (user) {
-        return User.generateJWT(user)
-        .then(token => {
+        const sid = uuidv1()
+        return req.server.app.cache.set(sid, { user }, 0)
+        .then(() => {
+          req.cookieAuth.set({ sid })
           return h.response({
             user: {
-              id: user._id,
+              _id: user._id,
               first_name: user.first_name,
               last_name: user.last_name,
-              email: user.email
-            },
-            token
+              email: user.email,
+              scope: user.scope
+            }
           })
         })
         .catch(err => {
@@ -223,17 +242,6 @@ export default class User {
         return h.response({ error: 'User does not exist.' })
       }
     })
-  }
-
-  static async generateJWT(user): Promise<String> {
-    return jwt.sign({
-      data: {
-        id: user._id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email
-      }
-    }, process.env.SECRET_KEY, { expiresIn: '6h' })
   }
 
 }

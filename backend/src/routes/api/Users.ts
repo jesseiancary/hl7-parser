@@ -51,6 +51,15 @@ exports.plugin = {
   
     server.route({
       method: 'POST',
+      path: '/users/logout',
+      handler: User.logout,
+      options: {
+        auth: false
+      }
+    }),
+  
+    server.route({
+      method: 'POST',
       path: '/users/login',
       handler: User.login,
       options: {

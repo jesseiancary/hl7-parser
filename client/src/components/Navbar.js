@@ -1,15 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import axios from 'axios'
 
 class NavBar extends Component {
-
-  logOut(e) {
-    e.preventDefault()
-    localStorage.removeItem('usertoken')
-    delete axios.defaults.headers.common['Authorization']
-    this.props.history.push(`/`)
-  }
 
   render() {
   
@@ -29,7 +21,7 @@ class NavBar extends Component {
         <Link to="/profile" className="dropdown-item">
           <i className="fas fa-user-edit fa-fw"></i> Profile
         </Link>
-        <a href="#" onClick={this.logOut.bind(this)} className="dropdown-item">
+        <a href="/logout" className="dropdown-item">
           <i className="fas fa-sign-out-alt fa-fw"></i> Logout
         </a>
         <Link to="/login-as" className="dropdown-item">
@@ -70,7 +62,7 @@ class NavBar extends Component {
                 <a className="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                   <i className="fas fa-user"></i>
                 </a>
-                {localStorage.usertoken ? loggedIn : loggedOut}
+                {localStorage.user ? loggedIn : loggedOut}
               </li>
             </ul>
           </div>
