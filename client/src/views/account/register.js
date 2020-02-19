@@ -1,80 +1,75 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Nav from './nav'
 
-class UpdateView extends Component {
-  render() {
-    const t = this.props.this
-    return (
-      <main className="register user">
-        <div className="container mt-5">
-          <div className="row">
-            <div className="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
+const UpdateView = props => (
+  <main className="register user">
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
 
-              <Nav active="/register" />
+          <Nav active="/register" />
 
-              <div className="jumbotron">
+          <div className="jumbotron">
 
-                <form noValidate onSubmit={t.onSubmit}>
+            <form noValidate onSubmit={props.onSubmit}>
 
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      name="first_name"
-                      placeholder="First Name"
-                      className="form-control"
-                      value={t.state.first_name}
-                      onChange={t.onChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      name="last_name"
-                      placeholder="Last Name"
-                      className="form-control"
-                      value={t.state.last_name}
-                      onChange={t.onChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      className="form-control"
-                      value={t.state.email}
-                      onChange={t.onChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      className="form-control"
-                      value={t.state.password}
-                      onChange={t.onChange}
-                    />
-                  </div>
-
-                  <button type="submit" className="btn btn-info btn-lg btn-block mb-2">Register</button>
-                  <span className="text-danger">
-                    {t.state.error && t.state.error}&nbsp;
-                  </span>
-
-                </form>
-
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="first_name"
+                  placeholder="First Name"
+                  className="form-control"
+                  value={props.data.first_name}
+                  onChange={props.onChange}
+                />
               </div>
 
-            </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="last_name"
+                  placeholder="Last Name"
+                  className="form-control"
+                  value={props.data.last_name}
+                  onChange={props.onChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  className="form-control"
+                  value={props.data.email}
+                  onChange={props.onChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={props.data.password}
+                  onChange={props.onChange}
+                />
+              </div>
+
+              <button type="submit" className="btn btn-info btn-lg btn-block mb-2">Register</button>
+              <span className="text-danger">
+                {props.data.error && props.data.error}&nbsp;
+              </span>
+
+            </form>
+
           </div>
+
         </div>
-      </main>
-    )
-  }
-}
+      </div>
+    </div>
+  </main>
+)
 
 export default UpdateView

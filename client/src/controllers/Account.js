@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import global from '../utils/global.js'
 import user from '../models/User.js'
+import { AuthContext } from '../utils/auth-context'
 
 import LoginView from '../views/account/login'
 import RegisterView from '../views/account/register'
@@ -16,23 +17,28 @@ axios.defaults.withCredentials = true
  * @route /logout
  * @description Log out a user
  */
-export class Logout extends Component {
+// export class Logout extends Component {
+export const Logout = props => {
 
-  componentWillMount() {
+  const { dispatch } = useContext(AuthContext)
+
+  useEffect(() => {
     axios
       .post(`${api}/logout`)
       .then(res => {
-        localStorage.removeItem('user')
-        this.props.history.push('/')
+        dispatch({
+          type: "LOGOUT"
+        })
       })
       .catch(err => {
-        console.log('Error in Profile.componentWillMount()', err.response)
+        console.log('Error in Logout.useEffect()', err.response)
       })
-  }
+      .then(() => {
+        props.history.push('/')
+      })
+  }, [])
 
-  render() {
-    return null
-  }
+  return null
 
 }
 
@@ -40,54 +46,73 @@ export class Logout extends Component {
  * @route /login
  * @description Log in a user
  */
-export class Login extends Component {
+export const Login = props => {
 
-  constructor() {
-    super()
-    this.state = {
-      email: '',
-      password: '',
-      error: ''
-    }
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+  const { dispatch } = useContext(AuthContext)
+
+  const initialState = {
+    email: '',
+    password: '',
+    error: null
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  const [data, setData] = useState(initialState)
+
+  const onChange = e => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    })
   }
 
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault()
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from } = props.location.state || { from: { pathname: '/' } }
     axios
       .post(`${api}/login`, {
         user: {
-          email: this.state.email,
-          password: this.state.password
+          email: data.email,
+          password: data.password
         }
       })
       .then(res => {
         if (res.data.user) {
-          localStorage.setItem('user', res.data.user)
-          this.props.history.push(from.pathname)
+          dispatch({
+            type: "LOGIN",
+            payload: res.data
+          })
+          props.history.push(from.pathname)
         } else if (res.data.error) {
-          this.setState({ error: res.data.error })
+          setData({
+            ...data,
+            error: res.data.error
+          })
         } else {
-          this.setState({ error: 'There was an error logging in.' })
+          setData({
+            ...data,
+            error: 'There was an error logging in.'
+          })
         }
       })
       .catch(err => {
-        this.setState({ error: 'There was an error logging in.' })
+        setData({
+          ...data,
+          error: err.response.data.message
+        })
         console.log('Error in Login.onSubmit()', err.response)
       })
   }
 
-  render() {
-    return (
-      <LoginView this={this} />
-    )
-  }
+  // const t = {
+  //   data: data,
+  //   onChange: onchange,
+  //   onSubmit: onSubmit
+  // }
+  // console.log('t', t)
+
+  return (
+    <LoginView data={data} onChange={onChange} onSubmit={onSubmit} />
+  )
 
 }
 
@@ -95,51 +120,63 @@ export class Login extends Component {
  * @route /login-as
  * @description Log in admin user as another user
  */
-export class LoginAs extends Component {
+export const LoginAs = props => {
 
-  constructor() {
-    super()
-    this.state = {
-      email: '',
-      error: ''
-    }
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+  const { dispatch } = useContext(AuthContext)
+
+  const initialState = {
+    email: '',
+    error: null
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  const [data, setData] = useState(initialState)
+
+  const onChange = e => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    })
   }
 
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault()
     axios
       .post(`${api}/login-as`, {
         user: {
-          email: this.state.email
+          email: data.email
         }
       })
       .then(res => {
         if (res.data.user) {
-          localStorage.setItem('user', res.data.user)
-          this.props.history.push('/')
+          dispatch({
+            type: "LOGIN",
+            payload: res.data
+          })
+          props.history.push('/')
         } else if (res.data.error) {
-          this.setState({ error: res.data.error })
+          setData({
+            ...data,
+            error: res.data.error
+          })
         } else {
-          this.setState({ error: 'There was an error logging in.' })
+          setData({
+            ...data,
+            error: 'There was an error logging in.'
+          })
         }
       })
       .catch(err => {
-        this.setState({ error: err.response.status === 403 ? 'You do not have permission to log in as another user.' : err.response.data.message })
+        setData({
+          ...data,
+          error: err.response.status === 403 ? 'You do not have permission to log in as another user.' : err.response.data.message
+        })
         console.log('Error in LoginAs.onSubmit()', err.response)
       })
   }
 
-  render() {
-    return (
-      <LoginAsView this={this} />
-    )
-  }
+  return (
+    <LoginAsView data={data} onChange={onChange} onSubmit={onSubmit} />
+  )
 
 }
 
@@ -147,44 +184,58 @@ export class LoginAs extends Component {
  * @route /register
  * @description Create a user
  */
-export class Register extends Component {
+export const Register = props => {
 
-  constructor() {
-    super()
-    this.state = user
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+  const { dispatch } = useContext(AuthContext)
+
+  const initialState = user
+
+  const [data, setData] = useState(initialState)
+
+  const onChange = e => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    })
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault()
     axios
-      .post(api, { user: this.state })
+      .post(api, {
+        user: data
+      })
       .then(res => {
         if (res.data.user) {
-          localStorage.setItem('user', res.data.user)
-          this.props.history.push('/profile')
+          dispatch({
+            type: "LOGIN",
+            payload: res.data
+          })
+          props.history.push('/profile')
         } else if (res.data.error) {
-          this.setState({ error: res.data.error })
+          setData({
+            ...data,
+            error: res.data.error
+          })
         } else {
-          this.setState({ error: 'There was an error registering the user.' })
+          setData({
+            ...data,
+            error: 'There was an error registering the user.'
+          })
         }
       })
       .catch(err => {
-        this.setState({ error: 'There was an error registering the user.' })
+        setData({
+          ...data,
+          error: 'There was an error registering the user.'
+        })
         console.log('Error in Register.onSubmit()', err.response)
       })
   }
 
-  render() {
-    return (
-      <RegisterView this={this} />
-    )
-  }
+  return (
+    <RegisterView data={data} onChange={onChange} onSubmit={onSubmit} />
+  )
 
 }
 
