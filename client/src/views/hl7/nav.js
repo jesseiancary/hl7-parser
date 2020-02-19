@@ -12,7 +12,7 @@ class Nav extends Component {
         </li>
         <li className="nav-item">
           <Link to="/hl7" className={ this.props.active === "/hl7" ? "nav-link active" : "nav-link" }>
-            All HL7 Documents
+            My HL7 Documents
           </Link>
         </li>
         <li className="nav-item dropdown">
